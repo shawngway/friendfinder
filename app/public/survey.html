@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Reservation Page</title>
+
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="jumbotron">
+            <h1 class="text-center">
+                <span class="fa fa-fire"></span> Friend Finder</h1>
+            <hr>
+            <h2 class="text-center">Answer as Accuratley as possible for best results!</h2>
+            <br>
+            <div class="text-center">
+                <a href="">
+                    <button class="btn btn-lg btn-primary">
+                        <span class="fa fa-list-alt"></span> Possible for testing</button>
+                </a>
+                <a href="/">
+                    <button class="btn btn-lg btn-default">
+                        <span class="fa fa-home"></span>
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <!-- Reservation Page -->
+                <div class="card">
+                    <div class="card-header">
+                        Friend Survey: answer with numbers 1-5 with how much you agree.
+                    </div>
+                    <div class="card-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="name">Name</label>
+                                <input type="text" class="form-control" id="name">
+                            </div>
+                            <div class="form-group">
+                                <label for="q1">Question 1: </label>
+                                <input type="text" class="form-control" id="q1">
+                            </div>
+                            <div class="form-group">
+                                <label for="q2">Question 2: </label>
+                                <input type="text" class="form-control" id="q2">
+                            </div>
+                            <div class="form-group">
+                                <label for="q3">Question 3: </label>
+                                <input type="text" class="form-control" id="q3">
+                            </div>
+                            <div class="form-group">
+                                <label for="q4">Question 4: </label>
+                                <input type="text" class="form-control" id="q4">
+                            </div>
+                            <div class="form-group">
+                                <label for="q5">Question 5: </label>
+                                <input type="text" class="form-control" id="q5">
+                            </div>
+                            <div class="form-group">
+                                <label for="q6">Question 6: </label>
+                                <input type="text" class="form-control" id="q6">
+                            </div>
+                            <div class="form-group">
+                                <label for="q7">Question 7: </label>
+                                <input type="text" class="form-control" id="q7">
+                            </div>
+                            <div class="form-group">
+                                <label for="q8">Question 8: </label>
+                                <input type="text" class="form-control" id="q8">
+                            </div>
+                            <div class="form-group">
+                                <label for="q9">Question 9: </label>
+                                <input type="text" class="form-control" id="q9">
+                            </div>
+                            <div class="form-group">
+                                <label for="q10">Question 10: </label>
+                                <input type="text" class="form-control" id="q10">
+                            </div>
+                            <button type="submit" class="btn btn-primary submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    <a href="/api/friends">API friends link</a> |
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+
+</html>
+
+<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
+<script type="text/javascript">
+    // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
+    // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
+    // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
+    // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
+
+    $(".submit").on("click", function (event) {
+        event.preventDefault();
+        let scores = [];
+
+
+        scores.push($("#q1").val().trim());
+        scores.push($("#q2").val().trim());
+        scores.push($("#q3").val().trim());
+        scores.push($("#q4").val().trim());
+        scores.push($("#q5").val().trim());
+        scores.push($("#q6").val().trim());
+        scores.push($("#q7").val().trim());
+        scores.push($("#q8").val().trim());
+        scores.push($("#q9").val().trim());
+        scores.push($("#q10").val().trim());
+        // Here we grab the form elements
+        var newFriend = {
+            name: $("#name").val().trim(),
+            scores: scores
+
+        };
+
+        console.log(newFriend);
+
+        // This line is the magic. It"s very similar to the standard ajax function we used.
+        // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+        // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+        // depending on if a tables is available or not.
+
+        $.post("/api/friends", newFriend,
+            function (data) {
+
+                // If a table is available... tell user they are booked.
+                if (data) {
+                    alert("Yay! finding a Friend");
+                }
+
+                // If a table is available... tell user they on the waiting list.
+
+                // Clear the form when submitting
+                $("#name").val("");
+                $("#q1").val("");
+                $("#q2").val("");
+                $("#q3").val("");
+                $("#q4").val("");
+                $("#q5").val("");
+                $("#q6").val("");
+                $("#q7").val("");
+                $("#q8").val("");
+                $("#q9").val("");
+                $("#q10").val("");
+
+
+            });
+
+    });
+
+</script>
