@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Reservation Page</title>
 
-    <!-- Latest compiled and minified CSS & JS -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://code.jquery.com/jquery.js"></script>
@@ -37,7 +37,7 @@
         </div>
         <div class="row">
             <div class="col-lg-12">
-                <!-- Reservation Page -->
+
                 <div class="card">
                     <div class="card-header">
                         Friend Survey: answer with numbers 1-5 with how much you agree.
@@ -49,46 +49,46 @@
                                 <input type="text" class="form-control" id="name">
                             </div>
                             <div class="form-group">
-                                <label for="q1">Question 1: </label>
+                                <label for="q1">Question 1: John Snow should have sat on the throne! </label>
                                 <input type="text" class="form-control" id="q1">
                             </div>
                             <div class="form-group">
-                                <label for="q2">Question 2: </label>
+                                <label for="q2">Question 2: eSports is the future. </label>
                                 <input type="text" class="form-control" id="q2">
                             </div>
                             <div class="form-group">
-                                <label for="q3">Question 3: </label>
+                                <label for="q3">Question 3: John Tucker did not have to die</label>
                                 <input type="text" class="form-control" id="q3">
                             </div>
                             <div class="form-group">
-                                <label for="q4">Question 4: </label>
+                                <label for="q4">Question 4: defaced pictures with writing are memes</label>
                                 <input type="text" class="form-control" id="q4">
                             </div>
                             <div class="form-group">
-                                <label for="q5">Question 5: </label>
+                                <label for="q5">Question 5: world of warcraft owns the genre</label>
                                 <input type="text" class="form-control" id="q5">
                             </div>
                             <div class="form-group">
-                                <label for="q6">Question 6: </label>
+                                <label for="q6">Question 6: call of duty makes games like candy</label>
                                 <input type="text" class="form-control" id="q6">
                             </div>
                             <div class="form-group">
-                                <label for="q7">Question 7: </label>
+                                <label for="q7">Question 7: counterstrike is a true fps</label>
                                 <input type="text" class="form-control" id="q7">
                             </div>
                             <div class="form-group">
-                                <label for="q8">Question 8: </label>
+                                <label for="q8">Question 8: Team liquid wins the next major</label>
                                 <input type="text" class="form-control" id="q8">
                             </div>
                             <div class="form-group">
-                                <label for="q9">Question 9: </label>
+                                <label for="q9">Question 9: people that honk the horn are having a rough day or on edge</label>
                                 <input type="text" class="form-control" id="q9">
                             </div>
                             <div class="form-group">
-                                <label for="q10">Question 10: </label>
+                                <label for="q10">Question 10: boneless wings are chicken nuggets</label>
                                 <input type="text" class="form-control" id="q10">
                             </div>
-                            <button type="submit" class="btn btn-primary submit">Submit</button>
+                            <button id= "myBtn" type="submit" class="btn btn-primary submit">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -104,17 +104,25 @@
         </footer>
 
     </div>
+    <button id="myBtn">Open Modal</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p></p>
+  </div>
+
+</div>
 
 </body>
 
 </html>
 
-<!-- BELOW CODE IS CRITICAL. IT HANDLES HOW FORM DATA IS SENT TO OUR SERVER -->
+
 <script type="text/javascript">
-    // In this code below we create the Front-end JavaScript which "POSTS" our form data to our express server.
-    // In essence, when the user hits submit, jQuery grabs all of the fields then sends a post request to our api
-    // Our api recognizes the route (/api/tables)... and then runs the associated code (found in api-routes.js).
-    // In this case the associated code "saves" the data to the table-data.js file or waitinglist-data.js file
 
     $(".submit").on("click", function (event) {
         event.preventDefault();
@@ -140,22 +148,16 @@
 
         console.log(newFriend);
 
-        // This line is the magic. It"s very similar to the standard ajax function we used.
-        // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
-        // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
-        // depending on if a tables is available or not.
 
         $.post("/api/friends", newFriend,
             function (data) {
 
-                // If a table is available... tell user they are booked.
                 if (data) {
-                    alert("Yay! finding a Friend");
+
+                    console.log(data)
+
                 }
 
-                // If a table is available... tell user they on the waiting list.
-
-                // Clear the form when submitting
                 $("#name").val("");
                 $("#q1").val("");
                 $("#q2").val("");
@@ -172,5 +174,31 @@
             });
 
     });
+
+    // Get the modal
+const modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+const btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+const span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
 
 </script>
